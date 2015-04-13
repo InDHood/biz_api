@@ -38,7 +38,7 @@ class MyAPI extends API {
     		if (!empty($val[0])) $where = "id={$val[0]}"; else $where = '';
     		$limit = 50;
     		$order = 'id ASC';
-    		return Model::query( $tbl, $where, $order, $limit, $cols );
+    		return json_encode( Model::query( $tbl, $where, $order, $limit, $cols ) );
 
     	} else if ( $this->method == 'POST' ){
 
@@ -60,7 +60,7 @@ class MyAPI extends API {
     	} else if ($this->method == 'DELETE'){ 
 
     		if (!empty($val[0])) $d = array( "id"=>$val[0]);
-    		return Model::update( $tbl, $d );
+    		return Model::delete( $tbl, $d );
     	}
 
     }

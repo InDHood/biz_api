@@ -12,7 +12,7 @@ class Model {
 		$host 	= 'localhost';
 		$user 	= 'li';
 		$pass 	= 'one';
-		$schema = 'api';
+		$schema = 'biz_plan';
 		// $port, $socket;
 
 		Model::$mysqli = new mysqli( $host, $user, $pass, $schema );
@@ -28,15 +28,21 @@ class Model {
 		if( $order != '' ) { $order = 'ORDER BY '.$order.' '; }
 		if( $cols != '' ) { $fields = implode(',', $cols); } else { $fields = '*'; }
 		if( empty($limit) ) { $limit = 100; }
-
+		
 		$sql = "SELECT ".$fields." FROM " . $tbl . " " . $where . " ". $order . " LIMIT ".$limit;
 		$res = Model::$mysqli->query( $sql );
-		while ( $rows = $res->fetch_assoc() ) { $arr[] = $rows; }
 		$count = $res->num_rows;
-		$res->free();
-		Model::$mysqli->close();
 
-		return ( $count == 1 ) ? $arr[0] : $arr;
+		if( $count ) {
+			while ( $rows = $res->fetch_assoc() ) { $arr[] = $rows; }
+			$res->free();
+			// Model::$mysqli->close();
+
+			return ( $count == 1 ) ? $arr[0] : $arr;
+		} else {
+			return 0;
+		}
+
 
 	}
 
@@ -44,8 +50,10 @@ class Model {
 		
 		$sql = "INSERT INTO ".$tbl." (".implode(',', array_keys($arr)).") VALUES ('".implode("','", array_values($arr))."')";
 		$res = Model::$mysqli->query( $sql );
+        // e($sql);
+		
 		$id  = Model::$mysqli->insert_id;
-		Model::$mysqli->close();
+		// Model::$mysqli->close();
 
 		return $id;
 
@@ -59,7 +67,7 @@ class Model {
 		$sql = "UPDATE " . $tbl . " SET " . implode(',', $ar) . " " . $where . " LIMIT " . $limit;
 		
 		$res = Model::$mysqli->query( $sql );
-		Model::$mysqli->close();
+		// Model::$mysqli->close();
 
 		return $res;
 
@@ -75,7 +83,7 @@ class Model {
 		$sql = "DELETE FROM " . $tbl . " " . $where . " LIMIT " . $limit;
 		$res = Model::$mysqli->query( $sql );
 		$count = intval( Model::$mysqli->affected_rows );
-		Model::$mysqli->close();
+		// Model::$mysqli->close();
 
 		return ( $count > 0 ) ? 1 : 0;
 
@@ -83,7 +91,7 @@ class Model {
 
 	public static $db = array(
 		'users' => array (
-			'cols' => array ('user', 'email', 'firstname', 'lastname', 'phone', 'gender'),
+			'cols' => array ( 'id', 'user', 'email', 'firstname', 'lastname', 'phone', 'gender'),
 			'fields' => array ('user', 'pass', 'email', 'firstname', 'lastname', 'phone', 'gender')
 			),
 		'ar' => array(
@@ -109,7 +117,7 @@ new Model();
 // 	e( 'Yea' );
 // }
 
-p( Model::insert( 'users', $d ) );
+// p( Model::insert( 'users', $d ) );
 
 
 ?>

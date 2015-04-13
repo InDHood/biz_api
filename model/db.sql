@@ -1,11 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 3.5.1
--- http://www.phpmyadmin.net
---
--- Host: localhost
--- Generation Time: Apr 13, 2015 at 04:19 PM
--- Server version: 5.5.24-log
--- PHP Version: 5.4.3
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -23,10 +15,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `_ar`
+-- Table structure for table `ar`
 --
 
-CREATE TABLE IF NOT EXISTS `_ar` (
+CREATE TABLE IF NOT EXISTS `ar` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_agent` varchar(100) NOT NULL,
   `api_key` int(11) NOT NULL,
@@ -37,10 +29,10 @@ CREATE TABLE IF NOT EXISTS `_ar` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `_arl`
+-- Table structure for table `arl`
 --
 
-CREATE TABLE IF NOT EXISTS `_arl` (
+CREATE TABLE IF NOT EXISTS `arl` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_agent_id` int(11) DEFAULT NULL,
   `date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -50,10 +42,10 @@ CREATE TABLE IF NOT EXISTS `_arl` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `_biz_plan`
+-- Table structure for table `biz_plan`
 --
 
-CREATE TABLE IF NOT EXISTS `_biz_plan` (
+CREATE TABLE IF NOT EXISTS `biz_plan` (
   `id` int(20) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `details` longtext NOT NULL,
@@ -66,10 +58,10 @@ CREATE TABLE IF NOT EXISTS `_biz_plan` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `_users`
+-- Table structure for table `users`
 --
 
-CREATE TABLE IF NOT EXISTS `_users` (
+CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user` varchar(200) NOT NULL,
   `pass` varchar(200) NOT NULL,

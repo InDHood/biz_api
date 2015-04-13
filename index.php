@@ -4,8 +4,8 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 
-require_once 'model/index.php';
 require_once 'lib/index.php';
+require_once 'model/index.php';
 require_once 'api/index.php';
 
 // Requests from the same server don't have a HTTP_ORIGIN header
