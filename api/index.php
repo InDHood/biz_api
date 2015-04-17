@@ -42,11 +42,18 @@ class MyAPI extends API {
 
     	} else if ( $this->method == 'POST' ){
 
-    		$cols = Model::$db[$tbl]['fields'];
-    		foreach ($data as $k => $v) {
-    			if ( in_array($k, $cols) ) $d[$k] = $v;
-    		}
-    		return Model::insert( $tbl, $d );
+            if( $tbl == 'login' ) {
+
+                return $this->login( $data );
+
+            } else {
+
+              $cols = Model::$db[$tbl]['fields'];
+              foreach ($data as $k => $v) {
+                 if ( in_array($k, $cols) ) $d[$k] = $v;
+             }
+             return Model::insert( $tbl, $d );
+         }
 
     	} else if ( $this->method == 'PUT' ){ 
 
@@ -62,6 +69,18 @@ class MyAPI extends API {
     		if (!empty($val[0])) $d = array( "id"=>$val[0]);
     		return Model::delete( $tbl, $d );
     	}
+
+    }
+
+
+    protected function login( $data ) {
+        
+        $tbl    = 'users';
+        $where  = " user = '{$data['user']}' && pass = '{$data['pass']}' ";
+        $order  = '';
+        $limit  = 1;
+        $cols   = 'id';
+        return json_encode( Model::query( $tbl, $where, $order, $limit, $cols ) );
 
     }
 

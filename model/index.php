@@ -26,8 +26,8 @@ class Model {
 		
 		if( $where != '' ) { $where = 'WHERE '.$where; }
 		if( $order != '' ) { $order = 'ORDER BY '.$order.' '; }
-		if( $cols != '' ) { $fields = implode(',', $cols); } else { $fields = '*'; }
-		if( empty($limit) ) { $limit = 100; }
+		if( $cols != '' ) { $fields = ( is_array( $cols ) ) ? implode( ',', $cols ) : $cols; } else { $fields = '*'; }
+		if( empty( $limit ) ) { $limit = 100; }
 		
 		$sql = "SELECT ".$fields." FROM " . $tbl . " " . $where . " ". $order . " LIMIT ".$limit;
 		$res = Model::$mysqli->query( $sql );
@@ -36,8 +36,6 @@ class Model {
 		if( $count ) {
 			while ( $rows = $res->fetch_assoc() ) { $arr[] = $rows; }
 			$res->free();
-			// Model::$mysqli->close();
-
 			return ( $count == 1 ) ? $arr[0] : $arr;
 		} else {
 			return 0;
@@ -50,11 +48,8 @@ class Model {
 		
 		$sql = "INSERT INTO ".$tbl." (".implode(',', array_keys($arr)).") VALUES ('".implode("','", array_values($arr))."')";
 		$res = Model::$mysqli->query( $sql );
-        // e($sql);
 		
 		$id  = Model::$mysqli->insert_id;
-		// Model::$mysqli->close();
-
 		return $id;
 
 	}
@@ -67,8 +62,6 @@ class Model {
 		$sql = "UPDATE " . $tbl . " SET " . implode(',', $ar) . " " . $where . " LIMIT " . $limit;
 		
 		$res = Model::$mysqli->query( $sql );
-		// Model::$mysqli->close();
-
 		return $res;
 
 	}
@@ -83,13 +76,14 @@ class Model {
 		$sql = "DELETE FROM " . $tbl . " " . $where . " LIMIT " . $limit;
 		$res = Model::$mysqli->query( $sql );
 		$count = intval( Model::$mysqli->affected_rows );
-		// Model::$mysqli->close();
-
 		return ( $count > 0 ) ? 1 : 0;
 
 	}
 
 	public static $db = array(
+		'login' => array (
+			'cols' => array ( 'id', 'user', 'pass'),
+			),
 		'users' => array (
 			'cols' => array ( 'id', 'user', 'email', 'firstname', 'lastname', 'phone', 'gender'),
 			'fields' => array ('user', 'pass', 'email', 'firstname', 'lastname', 'phone', 'gender')
